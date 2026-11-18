@@ -13,15 +13,15 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function sendMessage() {
-    if (!input.trim() || loading) return;
+  async function sendMessage(text = input) {
+    if (!text.trim() || loading) return;
 
-    const newMessages: Message[] = [
+    const updated = [
       ...messages,
-      { role: "user", content: input },
+      { role: "user" as const, content: text },
     ];
 
-    setMessages(newMessages);
+    setMessages(updated);
     setInput("");
     setLoading(true);
 
@@ -29,25 +29,23 @@ export default function Home() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: newMessages }),
+        body: JSON.stringify({ messages: updated }),
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || "Something went wrong.");
-      }
+      if (!response.ok) throw new Error(data.error);
 
       setMessages([
-        ...newMessages,
+        ...updated,
         { role: "assistant", content: data.message },
       ]);
-    } catch (error) {
+    } catch {
       setMessages([
-        ...newMessages,
+        ...updated,
         {
           role: "assistant",
-          content: "Sorry, something went wrong. Please try again.",
+          content: "Something went wrong. Please try again.",
         },
       ]);
     } finally {
@@ -56,102 +54,123 @@ export default function Home() {
   }
 
   return (
-    <main style={{
-      minHeight: "100vh",
-      background: "#101010",
-      color: "white",
-      fontFamily: "Arial, sans-serif",
-      display: "flex",
-      flexDirection: "column",
-    }}>
-      <header style={{
-        padding: "22px 30px",
-        borderBottom: "1px solid #303030",
-        fontSize: "23px",
-        fontWeight: "bold",
-      }}>
-        GogglGPT
-      </header>
-
-      <section style={{
-        flex: 1,
-        width: "100%",
-        maxWidth: "850px",
-        margin: "auto",
-        padding: "30px 20px",
-        boxSizing: "border-box",
-      }}>
-        {messages.length === 0 && (
-          <h1 style={{ textAlign: "center", marginTop: "100px" }}>
-            What can I help you with?
-          </h1>
-        )}
-
-        {messages.map((message, index) => (
-          <div key={index} style={{
-            background: message.role === "user" ? "#292929" : "transparent",
-            padding: "18px",
-            borderRadius: "15px",
-            marginBottom: "15px",
-            lineHeight: 1.6,
-          }}>
-            <strong>{message.role === "user" ? "You" : "GogglGPT"}</strong>
-            <p style={{ whiteSpace: "pre-wrap" }}>{message.content}</p>
-          </div>
-        ))}
-
-        {loading && <p>GogglGPT is thinking...</p>}
-      </section>
-
-      <footer style={{
-        width: "100%",
-        maxWidth: "850px",
-        margin: "0 auto",
-        padding: "20px",
-        boxSizing: "border-box",
-      }}>
-        <div style={{
-          display: "flex",
-          gap: "10px",
-          background: "#252525",
-          padding: "10px",
-          borderRadius: "18px",
-        }}>
-          <input
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") sendMessage();
-            }}
-            placeholder="Message GogglGPT..."
-            style={{
-              flex: 1,
-              background: "transparent",
-              border: "none",
-              outline: "none",
-              color: "white",
-              padding: "12px",
-              fontSize: "16px",
-              minWidth: 0,
-            }}
-          />
-          <button
-            onClick={sendMessage}
-            disabled={loading || !input.trim()}
-            style={{
-              background: "white",
-              color: "black",
-              border: "none",
-              borderRadius: "12px",
-              padding: "12px 18px",
-              cursor: "pointer",
-              fontWeight: "bold",
-            }}
-          >
-            Send
-          </button>
+    <main className="app-shell">
+      <aside className="sidebar">
+        <div className="brand">
+          <div className="brand-icon">G</div>
+          <span>Goggl<span className="brand-accent">GPT</span></span>
         </div>
-      </footer>
+
+        <button className="new-chat" onClick={() => {
+          setMessages([]);
+          setInput("");
+        }}>
+          <span>＋</span> New conversation
+        </button>
+
+        <div className="sidebar-label">YOUR SPACE</div>
+        <div className="side-note">Your conversations will appear here.</div>
+
+        <div className="sidebar-bottom">
+          <div className="avatar">G</div>
+          <div>
+            <strong>GogglGPT</strong>
+            <small>Your AI assistant</small>
+          </div>
+        </div>
+      </aside>
+
+      <section className="main-panel">
+        <header className="topbar">
+          <span className="topbar-title">AI Workspace</span>
+          <span className="status"><i /> Online</span>
+        </header>
+
+        <div className="chat-area">
+          {messages.length === 0 ? (
+            <div className="welcome">
+              <div className="welcome-icon">✦</div>
+              <div className="eyebrow">YOUR PERSONAL AI ASSISTANT</div>
+              <h1>Ideas start here<span>.</span></h1>
+              <p>
+                Welcome to GogglGPT. Ask questions, explore ideas,
+                learn something new or simply have a conversation.
+              </p>
+
+              <div className="suggestions">
+                <button onClick={() => sendMessage("Explain something interesting to me.")}>
+                  <span>✧</span>
+                  <strong>Explore something</strong>
+                  <small>Discover a fascinating topic</small>
+                </button>
+
+                <button onClick={() => sendMessage("Help me brainstorm creative ideas.")}>
+                  <span>◈</span>
+                  <strong>Brainstorm ideas</strong>
+                  <small>Think outside the box</small>
+                </button>
+
+                <button onClick={() => sendMessage("Teach me something new today.")}>
+                  <span>⌘</span>
+                  <strong>Learn something</strong>
+                  <small>Make learning interesting</small>
+                </button>
+
+                <button onClick={() => sendMessage("Help me write something creative.")}>
+                  <span>✎</span>
+                  <strong>Get creative</strong>
+                  <small>Bring your ideas to life</small>
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="messages">
+              {messages.map((message, index) => (
+                <div className={`message ${message.role}`} key={index}>
+                  <div className="message-avatar">
+                    {message.role === "user" ? "Y" : "G"}
+                  </div>
+                  <div className="message-content">
+                    <strong>
+                      {message.role === "user" ? "You" : "GogglGPT"}
+                    </strong>
+                    <p>{message.content}</p>
+                  </div>
+                </div>
+              ))}
+
+              {loading && (
+                <div className="message assistant">
+                  <div className="message-avatar">G</div>
+                  <div className="message-content">
+                    <strong>GogglGPT</strong>
+                    <p className="thinking">Thinking<span>...</span></p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className="composer-area">
+          <form className="composer" onSubmit={(e) => {
+            e.preventDefault();
+            sendMessage();
+          }}>
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask GogglGPT anything..."
+            />
+            <button disabled={loading || !input.trim()} type="submit">
+              ↑
+            </button>
+          </form>
+          <p className="disclaimer">
+            GogglGPT can make mistakes. Check important information.
+          </p>
+        </div>
+      </section>
     </main>
   );
 }
