@@ -1,22 +1,381 @@
 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
+
 * {
   box-sizing: border-box;
 }
 
-html,
 body {
   margin: 0;
-  padding: 0;
-  min-height: 100%;
+  font-family: 'DM Sans', sans-serif;
+  color: #292536;
 }
 
-body {
-  background: #101010;
-  color: white;
-  font-family: Arial, sans-serif;
-}
-
-button,
-input {
+button, input {
   font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  background: #f8f7fb;
+}
+
+.sidebar {
+  width: 265px;
+  min-height: 100vh;
+  background: #211d2c;
+  color: white;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: Manrope, sans-serif;
+  font-size: 23px;
+  font-weight: 800;
+  margin-bottom: 40px;
+}
+
+.brand-icon, .avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #a879ed, #7652bc);
+  color: white;
+  font-weight: 800;
+}
+
+.brand-accent {
+  color: #b99af1;
+}
+
+.new-chat {
+  padding: 14px;
+  border: 1px solid #51465f;
+  border-radius: 13px;
+  color: white;
+  background: #322b40;
+  text-align: left;
+  font-weight: 600;
+}
+
+.new-chat:hover {
+  background: #40354f;
+}
+
+.new-chat span {
+  margin-right: 9px;
+  font-size: 19px;
+}
+
+.sidebar-label {
+  color: #a79bb7;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  margin-top: 42px;
+}
+
+.side-note {
+  color: #a99fb5;
+  font-size: 12px;
+  margin-top: 15px;
+  line-height: 1.6;
+}
+
+.sidebar-bottom {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #403849;
+}
+
+.sidebar-bottom strong,
+.sidebar-bottom small {
+  display: block;
+}
+
+.sidebar-bottom small {
+  color: #b1a8be;
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+.main-panel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% 30%, #eee6fc 0%, transparent 48%),
+    #faf9fc;
+}
+
+.topbar {
+  height: 76px;
+  padding: 0 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #eeeaf3;
+}
+
+.topbar-title {
+  font-weight: 700;
+}
+
+.status {
+  color: #746c7e;
+  font-size: 12px;
+}
+
+.status i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #55b98a;
+  margin-right: 7px;
+}
+
+.chat-area {
+  flex: 1;
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 50px 30px 25px;
+}
+
+.welcome {
+  max-width: 690px;
+  margin: 45px auto;
+  text-align: center;
+}
+
+.welcome-icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 22px;
+  margin: 0 auto 25px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 32px;
+  background: linear-gradient(135deg, #b48be9, #7653bd);
+  box-shadow: 0 12px 30px #a88bce55;
+}
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #9276ba;
+}
+
+h1 {
+  font-family: Manrope, sans-serif;
+  font-size: clamp(38px, 6vw, 57px);
+  letter-spacing: -2.5px;
+  margin: 14px 0;
+  color: #292536;
+}
+
+h1 span {
+  color: #9972d0;
+}
+
+.welcome > p {
+  max-width: 510px;
+  margin: 0 auto;
+  color: #797384;
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+.suggestions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 13px;
+  margin-top: 42px;
+  text-align: left;
+}
+
+.suggestions button {
+  padding: 20px;
+  border: 1px solid #e9e2f1;
+  border-radius: 17px;
+  background: #ffffffcc;
+  box-shadow: 0 5px 20px #38244a08;
+  transition: .2s;
+}
+
+.suggestions button:hover {
+  transform: translateY(-3px);
+  border-color: #b99be2;
+  box-shadow: 0 10px 25px #6e4b9915;
+}
+
+.suggestions button > span {
+  display: block;
+  color: #9872ce;
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.suggestions strong,
+.suggestions small {
+  display: block;
+}
+
+.suggestions strong {
+  font-size: 13px;
+  color: #393345;
+}
+
+.suggestions small {
+  font-size: 11px;
+  color: #91899c;
+  margin-top: 6px;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.message {
+  display: flex;
+  gap: 14px;
+  line-height: 1.7;
+}
+
+.message-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: #eee6fa;
+  color: #7852ae;
+  font-weight: 800;
+}
+
+.message.user .message-avatar {
+  background: #ded6ea;
+}
+
+.message-content strong {
+  font-size: 13px;
+}
+
+.message-content p {
+  white-space: pre-wrap;
+  font-size: 14px;
+  color: #625b6d;
+  margin-top: 7px;
+}
+
+.thinking {
+  color: #9872ce !important;
+}
+
+.composer-area {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 15px 25px 25px;
+}
+
+.composer {
+  display: flex;
+  align-items: center;
+  padding: 9px 10px 9px 20px;
+  background: white;
+  border: 1px solid #e9e1f1;
+  border-radius: 20px;
+  box-shadow: 0 8px 35px #37264a0c;
+}
+
+.composer:focus-within {
+  border-color: #b697df;
+  box-shadow: 0 0 0 4px #a77bd51c;
+}
+
+.composer input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 12px 0;
+  color: #302a3a;
+}
+
+.composer input::placeholder {
+  color: #aaa3b2;
+}
+
+.composer button {
+  width: 43px;
+  height: 43px;
+  border: none;
+  border-radius: 14px;
+  color: white;
+  background: linear-gradient(135deg, #a87cdd, #7651b9);
+  font-size: 24px;
+}
+
+.composer button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.disclaimer {
+  text-align: center;
+  color: #a29baa;
+  font-size: 10px;
+  margin-top: 13px;
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    display: none;
+  }
+
+  .topbar {
+    padding: 0 20px;
+  }
+
+  .chat-area {
+    padding: 30px 17px;
+  }
+
+  .welcome {
+    margin: 35px auto;
+  }
+
+  .suggestions {
+    grid-template-columns: 1fr;
+  }
+
+  .composer-area {
+    padding: 12px 15px 20px;
+  }
 }
